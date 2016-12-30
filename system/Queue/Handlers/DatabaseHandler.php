@@ -3,7 +3,7 @@
 /**
  * Queue handler for database.
  */
-class DatabaseHandler
+class DatabaseHandler implements QueueHandlerInterface
 {
 	const STATUS_WAITING   = 10;
 	const STATUS_EXECUTING = 20;

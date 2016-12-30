@@ -7,7 +7,7 @@ use PhpAmqpLib\Exception\AMQPTimeoutException;
 /**
  * Queue handler for RabbitMQ.
  */
-class RabbitMQHandler
+class RabbitMQHandler implements QueueHandlerInterface
 {
 	protected $group_config;
 	protected $config;
@@ -89,7 +89,7 @@ class RabbitMQHandler
 	 * @param  string   $queueName
 	 * @return boolean  whether callback is done or not.
 	 */
-	public function fetch(callable $callback, string $queueName = '')
+	public function fetch(callable $callback, string $queueName = '') : bool
 	{
 		return $this->consume($callback, $queueName, 0.001);	// timeout 0.001sec: dummy for non-waiting
 	}
@@ -102,7 +102,7 @@ class RabbitMQHandler
 	 * @param  string   $queueName
 	 * @return boolean  whether callback is done or not.
 	 */
-	public function recieve(callable $callback, string $queueName = '')
+	public function recieve(callable $callback, string $queueName = '') : bool
 	{
 		return $this->consume($callback, $queueName);
 	}
@@ -124,7 +124,8 @@ class RabbitMQHandler
 			}
 		);
 
-		$ret = false;
+		$ret          = false;
+		$consumer_tag = null;
 		try
 		{
 			$consumer_tag = $this->channel->wait(null, false, $timeout);
@@ -134,7 +135,10 @@ class RabbitMQHandler
 		{
 			// do nothing.
 		}
-		$this->channel->basic_cancel($consumer_tag);
+
+		if ($consumer_tag !== null) {
+			$this->channel->basic_cancel($consumer_tag);
+		}
 
 		return $ret;
 	}
