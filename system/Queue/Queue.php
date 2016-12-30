@@ -31,7 +31,7 @@ class Queue
 		if (is_array($group))
 		{
 			$group_config = $group;
-			$group = 'custom';
+			$group        = 'custom';
 		}
 
 		if ($getShared && isset(self::$instances[$group]))
@@ -43,7 +43,7 @@ class Queue
 
 		if ($group == '')
 		{
-			$group = ENVIRONMENT == 'testing' ? 'tests' : (string)$config->defaultGroup;
+			$group = ENVIRONMENT == 'testing' ? 'tests' : (string) $config->defaultGroup;
 		}
 
 		if (isset($config->$group))
@@ -55,7 +55,7 @@ class Queue
 			throw new \InvalidArgumentException($group.' is not a valid queue connection group.');
 		}
 
-		$handler = '\\CodeIgniter\\Queue\\Handlers\\' . $group_config['handler'] . 'Handler';
+		$handler                 = '\\CodeIgniter\\Queue\\Handlers\\'.$group_config['handler'].'Handler';
 		self::$instances[$group] = new $handler($group_config, $config);
 
 		return self::$instances[$group];

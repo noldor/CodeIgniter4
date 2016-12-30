@@ -128,7 +128,7 @@ class RabbitMQHandler
 		try
 		{
 			$consumer_tag = $this->channel->wait(null, false, $timeout);
-			$ret = true;
+			$ret          = true;
 		}
 		catch (AMQPTimeoutException $ex)
 		{

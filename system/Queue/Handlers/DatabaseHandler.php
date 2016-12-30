@@ -107,7 +107,7 @@ class DatabaseHandler
 		if ($row)
 		{
 			$this->db->table($this->group_config['table'])
-				->where('id', (int)$row->id)
+				->where('id', (int) $row->id)
 				//->where('status', (int)self::STATUS_WAITING)	// important: multiple customers will try to get this record
 				->where('status = '.self::STATUS_WAITING)	// avoid a bug when using same column at a time...
 				->update(['status' => self::STATUS_EXECUTING, 'updated_at' => date('Y-m-d H:i:s')]);
@@ -175,6 +175,6 @@ class DatabaseHandler
 			['[-_a-zA-Z0-9]+', '.*'],
 			preg_quote($routing, '/')
 		);
-		return (bool)preg_match('/^'.$regex.'$/', $routingKey);
+		return (bool) preg_match('/^'.$regex.'$/', $routingKey);
 	}
 }
