@@ -2,6 +2,16 @@
 
 /**
  * Queue class.
+ *
+ * Queueing system has several actors, but this class has all actions.
+ *
+ * "Queue Producers" send messages to "Exchange".
+ * "Exchange" deliver messages to queues based on routing-setting.
+ *
+ * "Queue Customers" recieve each message from queueing system.
+ * There can be many customers, but each message is processed just once.
+ * Message is deleted when process is completed.
+ * When incompleted, message is returnd to queueing system.
  */
 class Queue
 {

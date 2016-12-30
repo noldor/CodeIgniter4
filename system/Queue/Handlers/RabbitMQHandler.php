@@ -22,7 +22,7 @@ class RabbitMQHandler
 	public function __construct($group_config, \Codeigniter\Config\Queue $config)
 	{
 		$this->group_config = $group_config;
-		$this->config       = $config;
+		$this->config       = clone $config;
 		$this->connection   = new AMQPStreamConnection(
 			$this->group_config['host'],
 			$this->group_config['port'],

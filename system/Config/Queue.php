@@ -19,6 +19,13 @@ class Queue extends BaseConfig
 		'do_setup'  => true,
 	];
 
+	public $database = [
+		'handler'          => 'Database',
+		'dbGroup'          => 'default',
+		'sharedConnection' => true,
+		'table'            => 'ci_queue',
+	];
+
 	/*
 	 * routing key to queue mapping.
 	 * routing key is separated by period.
