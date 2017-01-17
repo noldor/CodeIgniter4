@@ -6,7 +6,7 @@
  *
  * This content is released under the MIT License (MIT)
  *
- * Copyright (c) 2014 - 2016, British Columbia Institute of Technology
+ * Copyright (c) 2014 - 2017, British Columbia Institute of Technology
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -28,7 +28,7 @@
  *
  * @package CodeIgniter
  * @author  CodeIgniter Dev Team
- * @copyright   Copyright (c) 2014 - 2016, British Columbia Institute of Technology (http://bcit.ca/)
+ * @copyright   Copyright (c) 2014 - 2017, British Columbia Institute of Technology (http://bcit.ca/)
  * @license http://opensource.org/licenses/MIT  MIT License
  * @link    http://codeigniter.com
  * @since   Version 3.0.0
@@ -645,6 +645,40 @@ if (! function_exists('redirect'))
         }
 
         $response->redirect($uri);
+    }
+}
+
+//--------------------------------------------------------------------
+
+if (! function_exists('redirect_with_input'))
+{
+    /**
+     * Identical to the redirect() method, except that this will
+     * send the current $_GET and $_POST contents in a _ci_old_input
+     * variable flashed to the session, which can then be retrieved
+     * via the old() method.
+     *
+     * @param string $uri
+     * @param array  ...$params
+     */
+    function redirect_with_input(string $uri, ...$params)
+    {
+        $session = Services::session();
+
+        // Ensure we have the session started up.
+        if (! isset($_SESSION))
+        {
+            $session->start();
+        }
+
+        $input = [
+            'get' => $_GET ?? [],
+            'post' => $_POST ?? []
+        ];
+
+        $session->setFlashdata('_ci_old_input', $input);
+
+        redirect($uri, ...$params);
     }
 }
 
