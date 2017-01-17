@@ -22,7 +22,7 @@ class DatabaseHandler implements QueueHandlerInterface
 	public function __construct($group_config, \Codeigniter\Config\Queue $config)
 	{
 		$this->group_config = $group_config;
-		$this->config       = clone $config;
+		$this->config       = $config;
 		$this->db           = \Config\Database::connect($this->group_config['dbGroup'], $this->group_config['sharedConnection']);
 	}
 
@@ -108,8 +108,7 @@ class DatabaseHandler implements QueueHandlerInterface
 		{
 			$this->db->table($this->group_config['table'])
 				->where('id', (int) $row->id)
-				//->where('status', (int)self::STATUS_WAITING)	// important: multiple customers will try to get this record
-				->where('status = '.self::STATUS_WAITING)	// avoid a bug when using same column at a time...
+				->where('status', (int)self::STATUS_WAITING)
 				->update(['status' => self::STATUS_EXECUTING, 'updated_at' => date('Y-m-d H:i:s')]);
 			if ($this->db->affectedRows() > 0)
 			{
@@ -124,14 +123,14 @@ class DatabaseHandler implements QueueHandlerInterface
 	}
 
 	/**
-	 * Recieve message from queueing system.
+	 * Receive message from queueing system.
 	 * When there are no message, this method will wait.
 	 *
 	 * @param  callable $callback
 	 * @param  string   $queueName
 	 * @return boolean  whether callback is done or not.
 	 */
-	public function recieve(callable $callback, string $queueName = '') : bool
+	public function receive(callable $callback, string $queueName = '') : bool
 	{
 		while( ! $this->fetch($callback, $queueName))
 		{
@@ -146,25 +145,24 @@ class DatabaseHandler implements QueueHandlerInterface
 	public function keepHouse()
 	{
 		$this->db->table($this->group_config['table'])
-			//->set('retry_count', 'retry_count + 1', false)  // bug... value will be escaped
-			->set('retry_count', 3, false)
+			->set('retry_count', 'retry_count + 1', false)
 			->set('status', self::STATUS_WAITING)
 			->set('updated_at', date('Y-m-d H:i:s'))
-			->where('status = '.self::STATUS_EXECUTING)	// avoid a bug when using same column at a time...
-			->where('updated_at <', date('Y-m-d H:i:s', time() - 30))
-			->where('retry_count <', 3)
+			->where('status', self::STATUS_EXECUTING)
+			->where('updated_at <', date('Y-m-d H:i:s', time() - $this->config->timeout))
+			->where('retry_count <', $this->config->retry_max)
 			->update();
 		$this->db->table($this->group_config['table'])
 			->set('retry_count', 'retry_count + 1', false)
 			->set('status', self::STATUS_FAILED)
 			->set('updated_at', date('Y-m-d H:i:s'))
-			->where('status = '.self::STATUS_EXECUTING)	// avoid a bug when using same column at a time...
-			->where('updated_at <', date('Y-m-d H:i:s', time() - 30))
-			->where('retry_count >=', 3)
+			->where('status', self::STATUS_EXECUTING)
+			->where('updated_at <', date('Y-m-d H:i:s', time() - $this->config->timeout))
+			->where('retry_count >=', $this->config->retry_max)
 			->update();
 		$this->db->table($this->group_config['table'])
 			->where('status', self::STATUS_DONE)
-			->where('updated_at <', date('Y-m-d H:i:s', time() - 86400))
+			->where('updated_at <', date('Y-m-d H:i:s', time() - $this->config->remaining_done_message))
 			->delete();
 	}
 

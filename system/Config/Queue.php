@@ -5,7 +5,7 @@
  */
 class Queue extends BaseConfig
 {
-	public $defaultGroup      = 'rabbitmq';
+	public $defaultGroup      = 'database';
 	public $defaultExchange   = 'ci_queue_exchange';
 	public $defaultQueue      = 'ci_queue';
 
@@ -37,4 +37,8 @@ class Queue extends BaseConfig
 			'#' => 'ci_queue',
 		]
 	];
+
+	public $retry_max              = 3;
+	public $timeou                 = 30;
+	public $remaining_done_message = 86400;
 }

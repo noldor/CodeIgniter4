@@ -33,12 +33,12 @@ interface QueueHandlerInterface
 	public function fetch(callable $callback, string $queueName = '') : bool;
 
 	/**
-	 * Recieve message from queueing system.
+	 * Receive message from queueing system.
 	 * When there are no message, this method will wait.
 	 *
 	 * @param  callable $callback
 	 * @param  string   $queueName
 	 * @return boolean  whether callback is done or not.
 	 */
-	public function recieve(callable $callback, string $queueName = '') : bool;
+	public function receive(callable $callback, string $queueName = '') : bool;
 }
