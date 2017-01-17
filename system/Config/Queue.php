@@ -39,6 +39,6 @@ class Queue extends BaseConfig
 	];
 
 	public $retry_max              = 3;
-	public $timeou                 = 30;
+	public $timeout                = 30;
 	public $remaining_done_message = 86400;
 }
