@@ -73,7 +73,6 @@ class RabbitMQHandler implements QueueHandlerInterface
 	 */
 	public function send($data, string $routingKey = '', string $exchangeName = '')
 	{
-		//$this->channel->basic_publish(new AMQPMessage(json_encode($data), ['delivery_mode' => 2]), '', 'hello');
 		$this->channel->basic_publish(
 			new AMQPMessage(json_encode($data), ['delivery_mode' => 2]),
 			$exchangeName != '' ? $exchangeName : $this->config->defaultExchange,

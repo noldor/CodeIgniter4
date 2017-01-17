@@ -589,7 +589,9 @@ class Services
 	//--------------------------------------------------------------------
 
 	/**
-	 * The Queue class
+	 * The Queue class.
+	 *
+	 * @return CodeIgniter\Queue\Handlers\QueueHandlerInterface
 	 */
 	public static function queue($getShared = true)
 	{
