@@ -32,13 +32,13 @@ class Queue extends BaseConfig
 	 *   '*': exactly one word
 	 *   '#': words(greedy) or none
 	 */
-	public $exchange_map = [
+	public $exchangeMap = [
 		'ci_queue_exchange'  => [
 			'#' => 'ci_queue',
 		]
 	];
 
-	public $retry_max              = 3;
-	public $timeout                = 30;
-	public $remaining_done_message = 86400;
+	public $maxRetry             = 3;
+	public $timeout              = 30;
+	public $remainingDoneMessage = 86400;
 }

@@ -8,10 +8,10 @@ interface QueueHandlerInterface
 	/**
 	 * constructor.
 	 *
-	 * @param  array $group_config
+	 * @param  array $groupConfig
 	 * @param  \Codeigniter\Config\Queue $config
 	 */
-	public function __construct($group_config, \Codeigniter\Config\Queue $config);
+	public function __construct($groupConfig, \Codeigniter\Config\Queue $config);
 
 	/**
 	 * send message to queueing system.
