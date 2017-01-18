@@ -14,6 +14,7 @@ class FetchTest extends \CodeIgniter\CIQueueDatabaseTestCase
 				$message = $data;
 			}
 		);
+
 		$this->assertEquals('', $message);
 	}
 
@@ -30,6 +31,7 @@ class FetchTest extends \CodeIgniter\CIQueueDatabaseTestCase
 				$message = $data;
 			}
 		);
+		
 		$this->assertEquals('Rock Musician', $message);
 	}
 }

@@ -73,12 +73,12 @@ class DatabaseHandler implements QueueHandlerInterface
 		}
 
 		$this->db->transStart();
-		foreach ($this->config->exchange_map[$exchangeName] as $routing => $queueName)
+		foreach ($this->config->exchangeMap[$exchangeName] as $routing => $queueName)
 		{
 			if ($this->isMatchedRouting($routingKey, $routing))
 			{
 				$datetime = date('Y-m-d H:i:s');
-				$this->db->table($this->group_config['table'])->insert([
+				$this->db->table($this->groupConfig['table'])->insert([
 					'queue_name'  => $queueName,
 					'status'      => self::STATUS_WAITING,
 					'weight'      => 100,
