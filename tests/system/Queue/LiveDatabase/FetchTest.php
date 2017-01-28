@@ -22,7 +22,7 @@ class FetchTest extends \CodeIgniter\CIQueueDatabaseTestCase
 
 	public function testFetch()
 	{
-		$this->queue->send('Rock Musician');
+		$this->queue->send('It’s fine today');
 
 		$message = '';
 		$this->queue->fetch(
@@ -32,6 +32,23 @@ class FetchTest extends \CodeIgniter\CIQueueDatabaseTestCase
 			}
 		);
 		
-		$this->assertEquals('Rock Musician', $message);
+		$this->assertEquals('It’s fine today', $message);
+	}
+
+	//--------------------------------------------------------------------
+
+	public function testReceive()
+	{
+		$this->queue->send('It’s fine today. It’s fine today.');
+
+		$message = '';
+		$this->queue->receive(
+			function($data) use (&$message)
+			{
+				$message = $data;
+			}
+		);
+		
+		$this->assertEquals('It’s fine today. It’s fine today.', $message);
 	}
 }
