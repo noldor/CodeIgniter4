@@ -29,8 +29,8 @@
  * @package CodeIgniter
  * @author  CodeIgniter Dev Team
  * @copyright   Copyright (c) 2014 - 2017, British Columbia Institute of Technology (http://bcit.ca/)
- * @license http://opensource.org/licenses/MIT  MIT License
- * @link    http://codeigniter.com
+ * @license https://opensource.org/licenses/MIT  MIT License
+ * @link    https://codeigniter.com
  * @since   Version 3.0.0
  * @filesource
  */
@@ -109,7 +109,7 @@ if ( ! function_exists('view'))
          */
         $renderer = Services::renderer();
 
-        $saveData = false;
+        $saveData = null;
         if (array_key_exists('saveData', $options) && $options['saveData'] === true)
         {
             $saveData = (bool)$options['saveData'];

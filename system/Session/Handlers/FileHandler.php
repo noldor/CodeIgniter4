@@ -30,8 +30,8 @@
  * @package	CodeIgniter
  * @author	CodeIgniter Dev Team
  * @copyright	Copyright (c) 2014 - 2017, British Columbia Institute of Technology (http://bcit.ca/)
- * @license	http://opensource.org/licenses/MIT	MIT License
- * @link	http://codeigniter.com
+ * @license	https://opensource.org/licenses/MIT	MIT License
+ * @link	https://codeigniter.com
  * @since	Version 3.0.0
  * @filesource
  */
@@ -146,6 +146,7 @@ class FileHandler extends BaseHandler implements \SessionHandlerInterface
 		// which re-reads session data
 		if ($this->fileHandle === null)
 		{
+            $this->fileNew = ! file_exists($this->filePath.$sessionID);
 
 			if (($this->fileHandle = fopen($this->filePath.$sessionID, 'c+b')) === false)
 			{
