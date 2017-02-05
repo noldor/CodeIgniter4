@@ -30,7 +30,7 @@ class DatabaseHandler implements QueueHandlerInterface
 			'updated_at'  => [ 'type' => 'DATETIME' ],
 		]);
 		$forge->addKey('id', true);
-		$forge->addKey('weight', 'id', 'queue_name', 'status', 'exec_after');
+		$forge->addKey(['weight', 'id', 'queue_name', 'status', 'exec_after']);
 		$forge->createTable('ci_queue');
 	}
 
