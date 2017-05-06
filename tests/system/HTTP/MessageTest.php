@@ -133,6 +133,15 @@ class MessageTest extends \CIUnitTestCase
 
 		$this->assertEquals('1.1', $this->message->getProtocolVersion());
 	}
+        
+        //--------------------------------------------------------------------
+
+	public function testSetProtocolWorksWithNonNumericVersion()
+	{
+		$this->message->setProtocolVersion('HTTP/1.1');
+
+		$this->assertEquals('1.1', $this->message->getProtocolVersion());
+	}
 
 	//--------------------------------------------------------------------
 
@@ -155,4 +164,12 @@ class MessageTest extends \CIUnitTestCase
 
 	//--------------------------------------------------------------------
 
+        public function testHeaderLine()
+        {
+            $this->message->setHeader('Accept', ['json', 'html']);
+            
+            $this->message->appendHeader('Accept', 'xml');
+            
+            $this->assertEquals('json, html, xml', $this->message->getHeaderLine('Accept'));
+        }
 }
